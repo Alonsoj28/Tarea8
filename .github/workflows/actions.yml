@@ -1,0 +1,30 @@
+name: Contenedor Tarea 8
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-in-container:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.9-slim
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          pip install pandas
+
+      - name: Run Script
+        run: |
+          echo "Creando archivo desde el contenedor..."
+          echo "Hola desde un contenedor!" > salida.txt
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: container-output
+          path: salida.txt
