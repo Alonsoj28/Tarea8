@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  run-in-container:
+  run-python-script:
     runs-on: ubuntu-latest
     container:
       image: python:3.9-slim
@@ -16,15 +16,23 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install pandas
+          pip install requests pandas
 
-      - name: Run Script
+      - name: Create Python Script
         run: |
-          echo "Creando archivo desde el contenedor..."
-          echo "Hola desde un contenedor!" > salida.txt
+          echo "import pandas as pd" > script.py
+          echo "data = {'Nombre': ['Juan', 'Alonso'], 'Edad': [21, 20]}" >> script.py
+          echo "df = pd.DataFrame(data)" >> script.py
+          echo "print(df)" >> script.py
 
-      - name: Upload Artifact
+      - name: Run Python Script
+        run: |
+          python script.py
+
+      - name: Upload Script Output
+        run: |
+          python script.py > output.txt
         uses: actions/upload-artifact@v3
         with:
-          name: container-output
-          path: salida.txt
+          name: python-output
+          path: output.txt
