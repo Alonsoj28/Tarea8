@@ -16,7 +16,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install requests pandas
+          pip install requests pandas  # Instala las dependencias necesarias
 
       - name: Create Python Script
         run: |
@@ -27,11 +27,9 @@ jobs:
 
       - name: Run Python Script
         run: |
-          python script.py
+          python script.py > output.txt
 
       - name: Upload Script Output
-        run: |
-          python script.py > output.txt
         uses: actions/upload-artifact@v3
         with:
           name: python-output
